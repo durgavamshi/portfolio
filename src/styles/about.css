@@ -1,0 +1,807 @@
+/* about.css */
+.about {
+  padding: 140px 30px;
+  background: linear-gradient(145deg, var(--primary-bg), var(--secondary-bg));
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  scroll-behavior: smooth;
+  color: var(--text-color);
+}
+
+body.light-mode .about {
+  background: linear-gradient(145deg, var(--primary-bg), var(--secondary-bg));
+}
+
+.about-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1500px;
+  margin: 0 auto;
+  gap: 120px;
+}
+
+.about-image-slider {
+  flex: 0 0 45%;
+  max-width: 45%;
+  position: relative;
+  height: 650px;
+  overflow: hidden;
+  border-radius: 12px; /* Softer, modern corners */
+  background: linear-gradient(145deg, var(--primary-bg), var(--secondary-bg)); /* Keep background gradient */
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.4),
+    0 5px 15px rgba(255, 215, 0, 0.2),
+    inset 0 0 10px rgba(255, 215, 0, 0.1); /* Retain subtle inset glow */
+  opacity: 0;
+  transform: translateX(-150px) scale(0.95);
+  transition: opacity 1.2s ease-out, transform 1.2s ease-out, box-shadow 0.4s ease;
+}
+
+body.light-mode .about-image-slider {
+  background: linear-gradient(145deg, var(--primary-bg), var(--secondary-bg));
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.1),
+    0 5px 15px rgba(16, 185, 129, 0.2),
+    inset 0 0 10px rgba(16, 185, 129, 0.1);
+}
+
+.about-image-slider.visible {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+
+.about-image-slider:hover {
+  box-shadow: 
+    0 30px 70px rgba(0, 0, 0, 0.5), 
+    0 8px 20px rgba(255, 215, 0, 0.3), 
+    inset 0 0 15px rgba(255, 215, 0, 0.2);
+}
+
+body.light-mode .about-image-slider:hover {
+  box-shadow: 
+    0 30px 70px rgba(0, 0, 0, 0.15), 
+    0 8px 20px rgba(16, 185, 129, 0.3), 
+    inset 0 0 15px rgba(16, 185, 129, 0.2);
+}
+
+.slide-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%; /* Full width for a cleaner fit */
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 3s ease-in-out;
+  border-radius: 12px; /* Match container’s border-radius */
+  filter: brightness(0.9) contrast(1.05); /* Slightly muted brightness with enhanced contrast */
+}
+
+.slide-image.active {
+  opacity: 1;
+  filter: brightness(1) contrast(1.1); /* Crisp and vibrant when active */
+}
+
+.about-content {
+  flex: 0 0 50%;
+  max-width: 750px;
+  padding-right: 30px;
+  opacity: 0;
+  transform: translateX(150px);
+  transition: opacity 1.2s ease-out, transform 1.2s ease-out;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.about-content.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.about h2 {
+  font-size: 68px;
+  font-family: "Big Shoulders Stencil Text", sans-serif;
+  font-weight: 700;
+  color: var(--accent-color);
+  margin-bottom: 0;
+  position: relative;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 1s ease-out, transform 1s ease-out;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+body.light-mode .about h2 {
+  text-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+}
+
+.about h2.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.about p {
+  font-size: 22px;
+  font-family: "Big Shoulders Stencil Text", sans-serif;
+  font-weight: 400;
+  color: var(--text-color);
+  line-height: 1.6;
+  margin-bottom: 0;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 1s ease-out 0.2s, transform 1s ease-out 0.2s;
+  letter-spacing: 1px;
+}
+
+.about p.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.contact-info {
+  margin-bottom: 0;
+  padding: 20px;
+  background: linear-gradient(135deg, var(--secondary-bg), #1E2A44);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 1s ease-out 0.4s, transform 1s ease-out 0.4s;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 100%;
+  max-width: 400px;
+}
+
+body.light-mode .contact-info {
+  background: linear-gradient(135deg, var(--secondary-bg), #D1D5DB);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: "Big Shoulders Stencil Text", sans-serif;
+  font-size: 19px;
+  color: var(--accent-color);
+  margin-bottom: 0;
+  flex: 1 1 100%;
+}
+
+.contact-info.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.contact-icon {
+  width: 24px;
+  height: 24px;
+  color: var(--accent-color);
+  flex-shrink: 0;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 0;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 1s ease-out 0.6s, transform 1s ease-out 0.6s;
+  width: 100%;
+  max-width: 400px;
+  padding: 10px 0;
+}
+
+.social-icons.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.icon {
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  font-size: 24px;
+  color: var(--text-color);
+  border-radius: 50%;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255, 215, 0, 0.5);
+  background: linear-gradient(135deg, var(--secondary-bg), #1E2A44);
+}
+
+body.light-mode .icon {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border: 2px solid rgba(16, 185, 129, 0.5);
+  background: linear-gradient(135deg, var(--secondary-bg), #D1D5DB);
+}
+
+.icon.facebook { background: linear-gradient(135deg, #1877f2, #135fb2); }
+.icon.twitter { background: linear-gradient(135deg, #1da1f2, #157ab2); }
+.icon.github { background: linear-gradient(135deg, #24292e, #1a1e22); }
+.icon.linkedin { background: linear-gradient(135deg, #0077b5, #005f8f); }
+.icon.instagram { background: linear-gradient(135deg, #e4405f, #b9334c); }
+
+.icon:hover {
+  transform: translateY(-8px) scale(1.05);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 0 10px rgba(255, 215, 0, 0.5);
+  border-color: var(--accent-color);
+}
+
+body.light-mode .icon:hover {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15), 0 0 10px rgba(16, 185, 129, 0.5);
+}
+
+.vertical-text {
+  position: absolute;
+  top: 50%;
+  left: 50px;
+  transform: translateY(-50%) rotate(-90deg);
+  font-size: 18px;
+  font-family: "Big Shoulders Stencil Text", sans-serif;
+  color: rgba(255, 215, 0, 0.25);
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  font-weight: 600;
+  transition: color 0.5s ease;
+  opacity: 0;
+  transform: translateY(-50%) rotate(-90deg) translateX(-50px);
+  transition: opacity 1s ease-out 0.8s, transform 1s ease-out 0.8s;
+}
+
+body.light-mode .vertical-text {
+  color: rgba(16, 185, 129, 0.25);
+}
+
+.vertical-text.visible {
+  opacity: 1;
+  transform: translateY(-50%) rotate(-90deg) translateX(0);
+}
+
+.about:hover .vertical-text {
+  color: rgba(255, 215, 0, 0.5);
+}
+
+body.light-mode .about:hover .vertical-text {
+  color: rgba(16, 185, 129, 0.5);
+}
+
+.education-skills {
+  padding: 100px 30px;
+  background: linear-gradient(145deg, var(--primary-bg), var(--secondary-bg));
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-color);
+  scroll-behavior: smooth;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 1.2s ease-out, transform 1.2s ease-out;
+}
+
+body.light-mode .education-skills {
+  background: linear-gradient(145deg, var(--primary-bg), var(--secondary-bg));
+}
+
+.education-skills.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.education-skills-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  max-width: 1200px;
+  width: 100%;
+}
+
+.education-section {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: opacity 1s ease-out 0.2s, transform 1s ease-out 0.2s;
+}
+
+.education-section.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.education-section h3 {
+  font-size: 18px;
+  font-family: "Big Shoulders Stencil Text", sans-serif;
+  font-weight: 600;
+  color: var(--accent-color);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.education-section .education-heading {
+  font-size: 36px;
+  font-family: "Big Shoulders Stencil Text", sans-serif;
+  font-weight: 700;
+  color: var(--text-color);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 30px;
+  line-height: 1.2;
+}
+
+.education-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.education-year {
+  font-family: "Big Shoulders Stencil Text", sans-serif;
+  font-size: 16px;
+  color: var(--accent-color);
+  background: var(--secondary-bg);
+  padding: 5px 10px;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+body.light-mode .education-year {
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.education-details h5 {
+  font-family: "Big Shoulders Stencil Text", sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 5px;
+}
+
+.education-details p {
+  font-family: "Big Shoulders Stencil Text", sans-serif;
+  font-size: 16px;
+  color: #B0C4DE;
+  margin: 0;
+  line-height: 1.4;
+}
+
+body.light-mode .education-details p {
+  color: #4A5568;
+}
+
+.skills-section {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: opacity 1s ease-out 0.4s, transform 1s ease-out 0.4s;
+}
+
+.skills-section.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.skills-section h3 {
+  font-size: 18px;
+  font-family: "Big Shoulders Stencil Text", sans-serif;
+  font-weight: 600;
+  color: var(--accent-color);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+.skill-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.skill-name {
+  font-family: "Big Shoulders Stencil Text", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent-color);
+  flex: 0 0 40%;
+}
+
+.skill-bar {
+  flex: 1;
+  height: 8px;
+  background: var(--secondary-bg);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+body.light-mode .skill-bar {
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.skill-progress {
+  display: block;
+  height: 100%;
+  background: linear-gradient(to right, var(--accent-color), #DAA520);
+  transition: width 1.5s ease-in-out;
+}
+
+body.light-mode .skill-progress {
+  background: linear-gradient(to right, var(--accent-color), #059669);
+}
+
+@media (max-width: 768px) {
+  .about {
+    padding: 80px 15px;
+  }
+
+  .about-container {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .about-image-slider,
+  .about-content {
+    flex: none;
+    max-width: 100%;
+  }
+
+  .about-image-slider {
+    height: 400px;
+    transform: translateY(100px) scale(0.95);
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    border-radius: 10px; /* Slightly smaller radius for smaller screens */
+    background: linear-gradient(145deg, var(--primary-bg), var(--secondary-bg));
+  }
+
+  body.light-mode .about-image-slider {
+    background: linear-gradient(145deg, var(--primary-bg), var(--secondary-bg));
+  }
+
+  .about-image-slider.visible {
+    transform: translateY(0) scale(1);
+  }
+
+  .slide-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+
+  .about-content {
+    padding-right: 0;
+    transform: translateY(100px) scale(0.95);
+    gap: 15px;
+  }
+
+  .about-content.visible {
+    transform: translateY(0) scale(1);
+  }
+
+  .about h2 {
+    font-size: 48px;
+  }
+
+  .about p {
+    font-size: 18px;
+  }
+
+  .contact-info {
+    flex-direction: column;
+    gap: 12px;
+    max-width: 100%;
+    padding: 15px;
+  }
+
+  .social-icons {
+    max-width: 100%;
+    justify-content: space-around;
+    gap: 10px;
+  }
+
+  .vertical-text {
+    display: none;
+  }
+
+  .education-skills {
+    padding: 80px 15px;
+  }
+
+  .education-skills-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .education-section,
+  .skills-section {
+    transform: translateY(50px);
+  }
+
+  .education-section.visible,
+  .skills-section.visible {
+    transform: translateY(0);
+  }
+
+  .education-section .education-heading {
+    font-size: 28px;
+  }
+
+  .education-item {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .education-year {
+    font-size: 14px;
+  }
+
+  .education-details h5 {
+    font-size: 18px;
+  }
+
+  .education-details p {
+    font-size: 14px;
+  }
+
+  .skill-name {
+    font-size: 18px;
+    flex: 0 0 50%;
+  }
+
+  .skill-bar {
+    height: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .about {
+    padding: 60px 10px;
+  }
+
+  .about-container {
+    gap: 30px;
+  }
+
+  .about-image-slider {
+    height: 300px;
+    max-width: 100%;
+    border-radius: 8px; /* Even softer for smallest screens */
+    background: linear-gradient(145deg, var(--primary-bg), var(--secondary-bg));
+  }
+
+  body.light-mode .about-image-slider {
+    background: linear-gradient(145deg, var(--primary-bg), var(--secondary-bg));
+  }
+
+  .slide-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .about-content {
+    gap: 10px;
+  }
+
+  .about h2 {
+    font-size: 36px;
+  }
+
+  .about p {
+    font-size: 16px;
+  }
+
+  .contact-info {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .contact-item {
+    font-size: 16px;
+  }
+
+  .social-icons {
+    gap: 8px;
+  }
+
+  .icon {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    line-height: 40px;
+  }
+
+  .education-skills {
+    padding: 60px 10px;
+  }
+
+  .education-skills-container {
+    gap: 30px;
+  }
+
+  .education-section .education-heading {
+    font-size: 24px;
+  }
+
+  .education-year {
+    font-size: 12px;
+  }
+
+  .education-details h5 {
+    font-size: 16px;
+  }
+
+  .education-details p {
+    font-size: 12px;
+  }
+
+  .skill-name {
+    font-size: 16px;
+    flex: 0 0 55%;
+  }
+
+  .skill-bar {
+    height: 5px;
+  }
+}
+
+.skill-icons {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: 8px;
+}
+
+.skill-icons svg {
+  font-size: 18px;
+  color: var(--accent-color);
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.skill-item:hover .skill-icons svg {
+  transform: scale(1.2);
+  color: #F59E0B;
+}
+
+body.light-mode .skill-item:hover .skill-icons svg {
+  color: #059669;
+}
+
+.skill-bar {
+  position: relative;
+  background: rgba(42, 42, 42, 0.8);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+body.light-mode .skill-bar {
+  background: rgba(209, 213, 219, 0.8); /* Light gray for contrast */
+}
+
+.skill-progress {
+  position: relative;
+  overflow: hidden;
+}
+
+.skill-progress::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 215, 0, 0.2) 0%,
+    rgba(255, 215, 0, 0.6) 50%,
+    rgba(255, 215, 0, 0.2) 100%
+  );
+  animation: shine 2s infinite;
+}
+
+body.light-mode .skill-progress::after {
+  background: linear-gradient(
+    90deg,
+    rgba(16, 185, 129, 0.2) 0%,
+    rgba(16, 185, 129, 0.6) 50%,
+    rgba(16, 185, 129, 0.2) 100%
+  );
+}
+
+@keyframes shine {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.skill-icons svg {
+  position: relative;
+}
+
+.skill-icons svg:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(42, 42, 42, 0.9);
+  color: var(--text-color);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: "Big Shoulders Stencil Text", sans-serif;
+  white-space: nowrap;
+  z-index: 10;
+  margin-bottom: 5px;
+}
+
+body.light-mode .skill-icons svg:hover::after {
+  background: rgba(209, 213, 219, 0.9);
+}
+
+@media (max-width: 768px) {
+  .skill-icons svg {
+    font-size: 16px;
+  }
+
+  .skill-icons {
+    gap: 4px;
+    margin-right: 6px;
+  }
+
+  .skill-progress::after {
+    animation: shine 1.5s infinite;
+  }
+}
+
+@media (max-width: 480px) {
+  .skill-icons svg {
+    font-size: 14px;
+  }
+
+  .skill-icons {
+    gap: 3px;
+    margin-right: 4px;
+  }
+
+  .skill-icons svg:hover::after {
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+}
+
+.education-skills {
+  padding-top: 50px;
+}
+
+.education-section .education-heading {
+  text-align: center;
+}

@@ -1,0 +1,282 @@
+.projects {
+  padding: 100px 30px;
+  background: linear-gradient(180deg, var(--primary-bg), var(--secondary-bg));
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  scroll-behavior: smooth;
+  color: var(--text-color);
+}
+
+body.light-mode .projects {
+  background: linear-gradient(180deg, var(--primary-bg), var(--secondary-bg));
+}
+
+.projects h2 {
+  font-size: 48px;
+  font-family: "Big Shoulders Stencil Text", sans-serif;
+  font-weight: 700;
+  background: var(--gradient-btn);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 20px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.3); /* Dark mode shadow */
+}
+
+body.light-mode .projects h2 {
+  text-shadow: 0 0 10px rgba(16, 185, 129, 0.3); /* Light mode emerald shadow */
+}
+
+.projects p {
+  font-size: 18px;
+  color: #B0C4DE; /* Soft blue-gray for dark mode */
+  margin-bottom: 40px;
+  text-align: center;
+  max-width: 600px;
+  font-family: "Big Shoulders Stencil Text", sans-serif;
+}
+
+body.light-mode .projects p {
+  color: #4A5568; /* Darker gray for light mode contrast */
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  width: 100%;
+}
+
+.project-card {
+  background: var(--secondary-bg);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease;
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+body.light-mode .project-card {
+  background: var(--secondary-bg);
+  box-shadow: var(--shadow-sm);
+}
+
+.project-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.project-card:hover {
+  transform: translateY(-10px);
+  box-shadow: var(--shadow-lg), 0 0 15px var(--glow-color);
+}
+
+.project-image {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background: var(--primary-bg);
+}
+
+.project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.project-card:hover .project-image img {
+  transform: scale(1.05);
+}
+
+.project-content {
+  padding: 20px;
+  position: relative;
+  background: #1E2A44; /* Dark mode content background */
+  color: var(--text-color);
+}
+
+body.light-mode .project-content {
+  background: var(--secondary-bg); /* Light mode uses secondary cream */
+}
+
+.project-tech {
+  position: absolute;
+  top: -15px;
+  left: 20px;
+  background: var(--accent-color);
+  color: var(--primary-bg);
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-family: "Big Shoulders Stencil Text", sans-serif;
+  font-weight: 700;
+}
+
+.project-year {
+  position: absolute;
+  top: -15px;
+  right: 20px;
+  background: #DAA520; /* Gold for dark mode */
+  color: var(--primary-bg);
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-family: "Big Shoulders Stencil Text", sans-serif;
+  font-weight: 700;
+}
+
+body.light-mode .project-year {
+  background: #059669; /* Darker emerald for light mode */
+}
+
+.project-content h3 {
+  font-size: 22px;
+  color: var(--accent-color);
+  margin: 10px 0;
+  font-family: "Big Shoulders Stencil Text", sans-serif;
+  font-weight: 700;
+}
+
+.project-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 20px;
+}
+
+.project-content li {
+  font-size: 14px;
+  color: #B0C4DE; /* Soft blue-gray for dark mode */
+  margin-bottom: 8px;
+  position: relative;
+  padding-left: 20px;
+  font-family: "Big Shoulders Stencil Text", sans-serif;
+}
+
+body.light-mode .project-content li {
+  color: #4A5568; /* Darker gray for light mode */
+}
+
+.project-content li:before {
+  content: "•";
+  color: #DAA520; /* Gold bullet for dark mode */
+  position: absolute;
+  left: 0;
+  font-size: 18px;
+}
+
+body.light-mode .project-content li:before {
+  color: #10B981; /* Emerald green bullet for light mode */
+}
+
+.view-project-btn {
+  display: inline-block;
+  padding: 8px 20px;
+  background: var(--gradient-btn);
+  color: var(--primary-bg);
+  text-decoration: none;
+  border: 1px solid var(--glow-color);
+  border-radius: 25px;
+  font-size: 14px;
+  font-family: "Big Shoulders Stencil Text", sans-serif;
+  font-weight: 700;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+body.light-mode .view-project-btn {
+  background: var(--gradient-btn);
+  color: var(--primary-bg);
+}
+
+.view-project-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px var(--glow-color);
+}
+
+.view-all-btn {
+  margin-top: 40px;
+  padding: 12px 25px;
+  background: var(--gradient-btn);
+  color: var(--primary-bg);
+  border: 1px solid var(--glow-color);
+  border-radius: 25px;
+  font-size: 16px;
+  font-family: "Big Shoulders Stencil Text", sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+body.light-mode .view-all-btn {
+  background: var(--gradient-btn);
+  color: var(--primary-bg);
+}
+
+.view-all-btn:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg), 0 0 15px var(--glow-color);
+}
+
+@media (max-width: 768px) {
+  .projects {
+    padding: 80px 20px;
+  }
+
+  .projects h2 {
+    font-size: 36px;
+  }
+
+  .projects p {
+    font-size: 16px;
+  }
+
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-card {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .projects {
+    padding: 60px 15px;
+  }
+
+  .projects h2 {
+    font-size: 28px;
+  }
+
+  .projects p {
+    font-size: 14px;
+  }
+
+  .project-content h3 {
+    font-size: 18px;
+  }
+
+  .project-content li {
+    font-size: 12px;
+  }
+
+  .view-project-btn {
+    font-size: 12px;
+    padding: 6px 15px;
+  }
+
+  .view-all-btn {
+    font-size: 14px;
+    padding: 10px 20px;
+  }
+}

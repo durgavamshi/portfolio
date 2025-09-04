@@ -1,0 +1,61 @@
+:root {
+  --primary-bg: #0A192F; /* Dark teal */
+  --secondary-bg: #112240; /* Slightly lighter teal */
+  --text-color: #E6F1FF; /* Soft white */
+  --accent-color: #FFD700; /* Gold */
+  --gradient-btn: linear-gradient(90deg, #FFD700, #DAA520);
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 8px 25px rgba(0, 0, 0, 0.3);
+  --glow-color: rgba(255, 215, 0, 0.5);
+  --transition: all 0.3s ease;
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, var(--primary-bg), var(--secondary-bg));
+  color: var(--text-color);
+  scroll-behavior: smooth;
+  background-attachment: fixed;
+  overflow-x: hidden;
+}
+
+body.light-mode {
+  --primary-bg: #FDF6E3; /* Soft cream */
+  --secondary-bg: #ECE5CE; /* Light taupe-cream */
+  --text-color: #2D3748; /* Deep slate gray */
+  --accent-color: #10B981; /* Emerald green */
+  --gradient-btn: linear-gradient(90deg, #10B981, #059669); /* Emerald gradient */
+  --glow-color: rgba(16, 185, 129, 0.4); /* Subtle emerald glow */
+  background: linear-gradient(135deg, var(--primary-bg), var(--secondary-bg));
+}
+
+h1, h2, h3 {
+  text-align: center;
+  color: var(--accent-color);
+  font-family: "Inter", sans-serif; /* More professional font */
+  font-weight: 600;
+}
+
+button {
+  cursor: pointer;
+  transition: var(--transition);
+  background: var(--gradient-btn);
+  color: var(--primary-bg);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  box-shadow: var(--shadow-sm);
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px var(--glow-color);
+  opacity: 1;
+}
+
+
+

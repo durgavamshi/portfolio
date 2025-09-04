@@ -1,0 +1,120 @@
+.contact {
+  padding: 100px 30px;
+  background: linear-gradient(145deg, var(--primary-bg), var(--secondary-bg));
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-color);
+  scroll-behavior: smooth;
+  transition: background var(--transition), color var(--transition);
+}
+
+body.light-mode .contact {
+  background: linear-gradient(145deg, var(--primary-bg), var(--secondary-bg));
+}
+
+.contact-title {
+  font-size: 48px;
+  font-family: "Big Shoulders Stencil Text", sans-serif;
+  font-weight: 700;
+  color: var(--accent-color);
+  margin-bottom: 40px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+body.light-mode .contact-title {
+  text-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.contact-input,
+.contact-textarea {
+  padding: 12px 15px;
+  font-size: 16px;
+  border: 1px solid var(--accent-color);
+  border-radius: 5px;
+  background: var(--secondary-bg);
+  color: var(--text-color);
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-input:focus,
+.contact-textarea:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 10px var(--glow-color);
+}
+
+.contact-textarea {
+  resize: vertical;
+}
+
+.contact-button {
+  padding: 12px 25px;
+  font-size: 16px;
+  background: var(--gradient-btn);
+  color: var(--primary-bg);
+  border: 1px solid var(--glow-color);
+  border-radius: 25px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  font-family: "Big Shoulders Stencil Text", sans-serif;
+  font-weight: 700;
+}
+
+.contact-button:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg), 0 0 15px var(--glow-color);
+}
+
+@media (max-width: 768px) {
+  .contact {
+    padding: 80px 20px;
+  }
+
+  .contact-title {
+    font-size: 36px;
+  }
+
+  .contact-input,
+  .contact-textarea {
+    font-size: 14px;
+  }
+
+  .contact-button {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact {
+    padding: 60px 15px;
+  }
+
+  .contact-title {
+    font-size: 28px;
+  }
+
+  .contact-input,
+  .contact-textarea {
+    font-size: 12px;
+    padding: 10px 12px;
+  }
+
+  .contact-button {
+    font-size: 12px;
+    padding: 10px 20px;
+  }
+}
