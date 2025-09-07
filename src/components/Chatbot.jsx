@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./../styles/chatbot.css";
 import chatbotGif from "../assets/images/chatbot.gif";
-import { FaHome, FaPhone, FaPaperPlane, FaArrowLeft, FaTrash, FaTimes } from "react-icons/fa";
+import { FaTrash, FaTimes, FaPaperPlane } from "react-icons/fa";
 import resumePDF from "../assets/VAMSHI_RESUME.pdf";
 
 const Chatbot = () => {
@@ -13,13 +13,13 @@ const Chatbot = () => {
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   const chatContainerRef = useRef(null);
   const inputRef = useRef(null);
-  const formRef = useRef(null);
 
   const githubLink = "https://github.com/durgavamshi";
   const linkedinLink = "https://linkedin.com/in/durga-vamshi-gokinapelli";
 
   // Function to handle resume download
-  const handleResumeDownload = () => {
+  const handleResumeDownload = (e) => {
+    if (e) e.preventDefault();
     const link = document.createElement('a');
     link.href = resumePDF;
     link.download = 'Durga_Vamshi_Resume.pdf';
@@ -281,11 +281,7 @@ const Chatbot = () => {
                 </div>
               )}
             </div>
-            <form
-              ref={formRef}
-              onSubmit={handleSubmit}
-              className="chatbot-form"
-            >
+            <form onSubmit={handleSubmit} className="chatbot-form">
               <input
                 ref={inputRef}
                 type="text"
