@@ -86,27 +86,6 @@
     border-radius: 0;
     z-index: 10002;
   }
-
-  /* Adjust when keyboard is open */
-  .chatbot-box.keyboard-open {
-    height: 100vh;
-    max-height: 100vh; /* Ensure it doesn't exceed viewport */
-  }
-
-  .chatbot-box.keyboard-open .chatbot-messages {
-    padding-bottom: 80px; /* Reduced padding for better space usage */
-  }
-}
-
-/* Welcome Screen */
-.chatbot-welcome {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  background: linear-gradient(135deg, var(--primary-bg), var(--secondary-bg));
-  padding: 20px; /* Slightly reduced for mobile */
 }
 
 /* Active Chat Window */
@@ -215,21 +194,9 @@
   gap: 10px;
   border-top: 1px solid var(--glow-color);
   flex-shrink: 0;
-  position: sticky; /* Changed to sticky for better positioning */
+  position: sticky;
   bottom: 0;
-  z-index: 2; /* Ensure form stays above messages */
-}
-
-.chatbot-box.keyboard-open .chatbot-form {
-  position: fixed; /* Fix form to viewport bottom when keyboard is open */
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 10px 15px; /* Consistent padding */
-  background: var(--secondary-bg);
-  z-index: 10003; /* Ensure it stays above other elements */
-  width: 100vw; /* Full width for mobile */
-  box-sizing: border-box; /* Include padding in width */
+  z-index: 2;
 }
 
 .chatbot-input {
@@ -241,7 +208,7 @@
   background: rgba(255, 255, 255, 0.1);
   color: var(--text-color);
   resize: none;
-  min-height: 40px; /* Increased min-height for better visibility */
+  min-height: 40px;
   max-height: 100px;
   overflow-y: auto;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
@@ -249,6 +216,9 @@
   /* Remove number input arrows */
   -moz-appearance: textfield;
   appearance: textfield;
+  /* Fix for mobile Safari */
+  -webkit-appearance: none;
+  -webkit-border-radius: 12px;
 }
 
 /* Remove spinner arrows in Webkit browsers */
@@ -284,12 +254,9 @@
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   flex-shrink: 0;
-  z-index: 10004; /* Higher z-index to ensure clickability */
-  touch-action: manipulation; /* Prevent default touch behaviors */
-}
-
-.chatbot-box.keyboard-open .chatbot-send {
-  z-index: 10005; /* Even higher when keyboard is open */
+  /* Fix for mobile touch issues */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .chatbot-send:hover:not(:disabled) {
@@ -422,7 +389,7 @@
 
   .chatbot-header {
     height: 50px;
-    padding: 8px 12px; /* Slightly reduced padding */
+    padding: 8px 12px;
   }
 
   .chatbot-header h3 {
@@ -431,7 +398,7 @@
 
   .chatbot-messages {
     padding: 10px;
-    padding-bottom: 60px; /* Ensure space for form */
+    padding-bottom: 60px;
   }
 
   .message {
@@ -443,13 +410,24 @@
   .chatbot-input {
     font-size: 13px;
     padding: 8px 10px;
-    min-height: 36px; /* Slightly larger for better touch target */
+    min-height: 36px;
+    /* Fix for iOS zoom on focus */
+    font-size: 16px;
   }
 
   .chatbot-send {
     width: 36px;
     height: 36px;
     font-size: 14px;
+  }
+  
+  /* Ensure form is always visible and clickable */
+  .chatbot-form {
+    padding: 10px 12px;
+    z-index: 10004;
+    position: sticky;
+    bottom: 0;
+    background: var(--secondary-bg);
   }
 }
 
@@ -480,7 +458,7 @@
 .quick-reply-btn,
 .chatbot-nav,
 .nav-btn {
-  display: none; /* Remove unused styles to reduce CSS footprint */
+  display: none;
 }
 
 /* Remove the mobile close button from the form */

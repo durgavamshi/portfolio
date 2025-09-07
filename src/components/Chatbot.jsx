@@ -10,9 +10,9 @@ const Chatbot = () => {
   const [chatHistory, setChatHistory] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 480);
-  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   const chatContainerRef = useRef(null);
   const inputRef = useRef(null);
+  const formRef = useRef(null);
 
   const githubLink = "https://github.com/durgavamshi";
   const linkedinLink = "https://linkedin.com/in/durga-vamshi-gokinapelli";
@@ -38,34 +38,6 @@ const Chatbot = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Detect keyboard open/close on mobile
-  useEffect(() => {
-    const handleFocus = () => {
-      if (isMobile) {
-        setIsKeyboardOpen(true);
-      }
-    };
-
-    const handleBlur = () => {
-      if (isMobile) {
-        setIsKeyboardOpen(false);
-      }
-    };
-
-    const inputElement = inputRef.current;
-    if (inputElement) {
-      inputElement.addEventListener('focus', handleFocus);
-      inputElement.addEventListener('blur', handleBlur);
-    }
-
-    return () => {
-      if (inputElement) {
-        inputElement.removeEventListener('focus', handleFocus);
-        inputElement.removeEventListener('blur', handleBlur);
-      }
-    };
-  }, [isMobile, isOpen]);
-
   useEffect(() => {
     if (isOpen && chatHistory.length === 0) {
       const welcomeMessage = {
@@ -85,7 +57,6 @@ const Chatbot = () => {
 
   const toggleChat = () => {
     setIsOpen(!isOpen);
-    setIsKeyboardOpen(false);
   };
   
   const clearChat = () => {
@@ -248,7 +219,7 @@ const Chatbot = () => {
       )}
 
       {isOpen && (
-        <div className={`chatbot-box ${isKeyboardOpen ? 'keyboard-open' : ''}`}>
+        <div className="chatbot-box">
           {/* Active Chat Window - Always shown when open */}
           <div className="chatbot-active">
             <div className="chatbot-header">
@@ -281,7 +252,7 @@ const Chatbot = () => {
                 </div>
               )}
             </div>
-            <form onSubmit={handleSubmit} className="chatbot-form">
+            <form ref={formRef} onSubmit={handleSubmit} className="chatbot-form">
               <input
                 ref={inputRef}
                 type="text"
