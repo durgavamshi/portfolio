@@ -13,6 +13,8 @@ const Chatbot = () => {
   const chatContainerRef = useRef(null);
   const inputRef = useRef(null);
   const formRef = useRef(null);
+  const chatBoxRef = useRef(null);
+  const isOpenRef = useRef(false);
 
   const githubLink = "https://github.com/durgavamshi";
   const linkedinLink = "https://linkedin.com/in/durga-vamshi-gokinapelli";
@@ -28,15 +30,48 @@ const Chatbot = () => {
     document.body.removeChild(link);
   };
 
-  // Check screen size on resize
+  // Check screen size and adjust height on resize (including keyboard)
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 480);
+      if (isOpenRef.current && chatBoxRef.current) {
+        let vh = window.innerHeight;
+        if (window.visualViewport?.height) {
+          vh = window.visualViewport.height;
+        }
+        const mobile = window.innerWidth <= 480;
+        chatBoxRef.current.style.height = mobile ? `${vh}px` : '';
+      }
     };
-    
+
+    // Initial call
+    handleResize();
+
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.visualViewport?.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.visualViewport?.removeEventListener('resize', handleResize);
+    };
   }, []);
+
+  // Update isOpen ref and set initial height on open/close
+  useEffect(() => {
+    isOpenRef.current = isOpen;
+    if (isOpen && chatBoxRef.current) {
+      const mobile = window.innerWidth <= 480;
+      if (mobile) {
+        let vh = window.innerHeight;
+        if (window.visualViewport?.height) {
+          vh = window.visualViewport.height;
+        }
+        chatBoxRef.current.style.height = `${vh}px`;
+      }
+    } else if (chatBoxRef.current) {
+      chatBoxRef.current.style.height = '';
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     if (isOpen && chatHistory.length === 0) {
@@ -219,7 +254,7 @@ const Chatbot = () => {
       )}
 
       {isOpen && (
-        <div className="chatbot-box">
+        <div className="chatbot-box" ref={chatBoxRef}>
           {/* Active Chat Window - Always shown when open */}
           <div className="chatbot-active">
             <div className="chatbot-header">
