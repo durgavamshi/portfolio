@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./../styles/chatbot.css";
 import chatbotGif from "../assets/images/chatbot.gif";
 import { FaTrash, FaTimes, FaPaperPlane } from "react-icons/fa";
@@ -9,9 +9,10 @@ const Chatbot = () => {
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 480);
   const chatContainerRef = useRef(null);
   const inputRef = useRef(null);
+  const formRef = useRef(null);
   const chatBoxRef = useRef(null);
   const isOpenRef = useRef(false);
 
@@ -19,7 +20,7 @@ const Chatbot = () => {
   const linkedinLink = "https://linkedin.com/in/durga-vamshi-gokinapelli";
 
   // Function to handle resume download
-  const handleResumeDownload = useCallback((e) => {
+  const handleResumeDownload = (e) => {
     if (e) e.preventDefault();
     const link = document.createElement('a');
     link.href = resumePDF;
@@ -27,69 +28,71 @@ const Chatbot = () => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-  }, []);
+  };
 
-  // Check screen size and adjust height on resize
+  // Check screen size and adjust height on resize (including keyboard)
   useEffect(() => {
     const handleResize = () => {
-      const mobile = window.innerWidth <= 768;
-      setIsMobile(mobile);
-      
+      setIsMobile(window.innerWidth <= 480);
       if (isOpenRef.current && chatBoxRef.current) {
-        if (mobile) {
-          // For mobile, set height to 100vh and handle keyboard with CSS
-          chatBoxRef.current.style.height = '100vh';
-          chatBoxRef.current.style.top = '0';
-          chatBoxRef.current.style.left = '0';
-          chatBoxRef.current.style.transform = 'none';
-          chatBoxRef.current.style.borderRadius = '0';
-        } else {
-          // For desktop, reset to original styling
-          chatBoxRef.current.style.height = '500px';
-          chatBoxRef.current.style.top = '';
-          chatBoxRef.current.style.left = '';
-          chatBoxRef.current.style.transform = '';
-          chatBoxRef.current.style.borderRadius = '20px';
+        let vh = window.innerHeight;
+        if (window.visualViewport?.height) {
+          vh = window.visualViewport.height;
+        }
+        const mobile = window.innerWidth <= 480;
+        chatBoxRef.current.style.height = mobile ? `${vh}px` : '';
+        // Scroll to bottom after resize
+        if (chatContainerRef.current) {
+          chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
         }
       }
     };
 
+    // Initial call
     handleResize();
+
     window.addEventListener('resize', handleResize);
+    window.visualViewport?.addEventListener('resize', handleResize);
 
     return () => {
       window.removeEventListener('resize', handleResize);
+      window.visualViewport?.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  // Prevent body scroll on mobile when open
+  useEffect(() => {
+    if (isMobile && isOpen) {
+      document.body.classList.add('no-scroll');
+    } else {
+      document.body.classList.remove('no-scroll');
+    }
+
+    return () => {
+      document.body.classList.remove('no-scroll');
+    };
+  }, [isMobile, isOpen]);
 
   // Update isOpen ref and set initial height on open/close
   useEffect(() => {
     isOpenRef.current = isOpen;
-    
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-      
-      if (isMobile && chatBoxRef.current) {
-        // Set mobile fullscreen styles
-        chatBoxRef.current.style.height = '100vh';
-        chatBoxRef.current.style.top = '0';
-        chatBoxRef.current.style.left = '0';
-        chatBoxRef.current.style.transform = 'none';
-        chatBoxRef.current.style.borderRadius = '0';
+    if (isOpen && chatBoxRef.current) {
+      const mobile = window.innerWidth <= 480;
+      if (mobile) {
+        let vh = window.innerHeight;
+        if (window.visualViewport?.height) {
+          vh = window.visualViewport.height;
+        }
+        chatBoxRef.current.style.height = `${vh}px`;
+        // Scroll to bottom
+        if (chatContainerRef.current) {
+          chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+        }
       }
-      
-      // Focus input when chat opens
-      setTimeout(() => {
-        if (inputRef.current) inputRef.current.focus();
-      }, 100);
-    } else {
-      document.body.style.overflow = '';
+    } else if (chatBoxRef.current) {
+      chatBoxRef.current.style.height = '';
     }
-    
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isOpen, isMobile]);
+  }, [isOpen]);
 
   useEffect(() => {
     if (isOpen && chatHistory.length === 0) {
@@ -152,8 +155,8 @@ const Chatbot = () => {
     contact: `You can reach Durga Vamshi at:
     - Email: <a href='mailto:durgavamshogokinapelli@gmail.com'>durgavamshogokinapelli@gmail.com</a>
     - Phone: +91 8341764997
-    - <a href='${githubLink}' target='_blank' rel='noopener noreferrer'>GitHub</a>
-    - <a href='${linkedinLink}' target='_blank' rel='noopener noreferrer'>LinkedIn</a>
+    - <a href='${githubLink}' target='_blank'>GitHub</a>
+    - <a href='${linkedinLink}' target='_blank'>LinkedIn</a>
     Feel free to connect for opportunities or technical discussions!`,
     education: `My educational background:
     - <strong>B.Tech in Computer Science and Engineering</strong> (2022-2025) from Nalla Narasimha Reddy Education Society, Hyderabad - CGPA: 8.5
@@ -188,12 +191,10 @@ const Chatbot = () => {
     }
 
     // Check for partial matches with improved keyword detection
-    const matchedKey = Object.keys(predefinedResponses).find(key => 
-      lowerMessage.includes(key)
-    );
-
-    if (matchedKey) {
-      return { text: predefinedResponses[matchedKey], timestamp };
+    for (const [key, response] of Object.entries(predefinedResponses)) {
+      if (lowerMessage.includes(key)) {
+        return { text: response, timestamp };
+      }
     }
 
     if (!lowerMessage) {
@@ -248,13 +249,21 @@ const Chatbot = () => {
     }
   };
 
-  // Handle resume download links more efficiently
-  const handleMessageClick = useCallback((e) => {
-    if (e.target.classList.contains('resume-download-link')) {
-      e.preventDefault();
-      handleResumeDownload();
-    }
-  }, [handleResumeDownload]);
+  // Add event listeners for resume download links
+  useEffect(() => {
+    const handleResumeClick = (e) => {
+      if (e.target.classList.contains('resume-download-link')) {
+        e.preventDefault();
+        handleResumeDownload();
+      }
+    };
+
+    document.addEventListener('click', handleResumeClick);
+    
+    return () => {
+      document.removeEventListener('click', handleResumeClick);
+    };
+  }, []);
 
   return (
     <div className={`chatbot-container ${isMobile ? 'mobile' : ''}`}>
@@ -282,11 +291,7 @@ const Chatbot = () => {
                 <button className="close-btn" onClick={toggleChat} aria-label="Close chat"><FaTimes /></button>
               </div>
             </div>
-            <div 
-              className="chatbot-messages" 
-              ref={chatContainerRef}
-              onClick={handleMessageClick}
-            >
+            <div className="chatbot-messages" ref={chatContainerRef}>
               {chatHistory.map((msg, index) => (
                 <div key={index} className={`message ${msg.type}`}>
                   <div className="message-content" dangerouslySetInnerHTML={{ __html: msg.text }} />
@@ -303,7 +308,7 @@ const Chatbot = () => {
                 </div>
               )}
             </div>
-            <form onSubmit={handleSubmit} className="chatbot-form">
+            <form ref={formRef} onSubmit={handleSubmit} className="chatbot-form">
               <input
                 ref={inputRef}
                 type="text"
