@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import "./../styles/chatbot.css";
 import chatbotGif from "../assets/images/chatbot.gif";
 import { FaTrash, FaTimes, FaPaperPlane } from "react-icons/fa";
@@ -12,7 +12,6 @@ const Chatbot = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 480);
   const chatContainerRef = useRef(null);
   const inputRef = useRef(null);
-  const formRef = useRef(null);
   const chatBoxRef = useRef(null);
   const isOpenRef = useRef(false);
 
@@ -20,7 +19,7 @@ const Chatbot = () => {
   const linkedinLink = "https://linkedin.com/in/durga-vamshi-gokinapelli";
 
   // Function to handle resume download
-  const handleResumeDownload = (e) => {
+  const handleResumeDownload = useCallback((e) => {
     if (e) e.preventDefault();
     const link = document.createElement('a');
     link.href = resumePDF;
@@ -28,7 +27,7 @@ const Chatbot = () => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-  };
+  }, []);
 
   // Check screen size and adjust height on resize (including keyboard)
   useEffect(() => {
@@ -68,6 +67,11 @@ const Chatbot = () => {
         }
         chatBoxRef.current.style.height = `${vh}px`;
       }
+      
+      // Focus input when chat opens
+      setTimeout(() => {
+        if (inputRef.current) inputRef.current.focus();
+      }, 100);
     } else if (chatBoxRef.current) {
       chatBoxRef.current.style.height = '';
     }
@@ -134,8 +138,8 @@ const Chatbot = () => {
     contact: `You can reach Durga Vamshi at:
     - Email: <a href='mailto:durgavamshogokinapelli@gmail.com'>durgavamshogokinapelli@gmail.com</a>
     - Phone: +91 8341764997
-    - <a href='${githubLink}' target='_blank'>GitHub</a>
-    - <a href='${linkedinLink}' target='_blank'>LinkedIn</a>
+    - <a href='${githubLink}' target='_blank' rel='noopener noreferrer'>GitHub</a>
+    - <a href='${linkedinLink}' target='_blank' rel='noopener noreferrer'>LinkedIn</a>
     Feel free to connect for opportunities or technical discussions!`,
     education: `My educational background:
     - <strong>B.Tech in Computer Science and Engineering</strong> (2022-2025) from Nalla Narasimha Reddy Education Society, Hyderabad - CGPA: 8.5
@@ -170,10 +174,12 @@ const Chatbot = () => {
     }
 
     // Check for partial matches with improved keyword detection
-    for (const [key, response] of Object.entries(predefinedResponses)) {
-      if (lowerMessage.includes(key)) {
-        return { text: response, timestamp };
-      }
+    const matchedKey = Object.keys(predefinedResponses).find(key => 
+      lowerMessage.includes(key)
+    );
+
+    if (matchedKey) {
+      return { text: predefinedResponses[matchedKey], timestamp };
     }
 
     if (!lowerMessage) {
@@ -228,21 +234,13 @@ const Chatbot = () => {
     }
   };
 
-  // Add event listeners for resume download links
-  useEffect(() => {
-    const handleResumeClick = (e) => {
-      if (e.target.classList.contains('resume-download-link')) {
-        e.preventDefault();
-        handleResumeDownload();
-      }
-    };
-
-    document.addEventListener('click', handleResumeClick);
-    
-    return () => {
-      document.removeEventListener('click', handleResumeClick);
-    };
-  }, []);
+  // Handle resume download links more efficiently
+  const handleMessageClick = useCallback((e) => {
+    if (e.target.classList.contains('resume-download-link')) {
+      e.preventDefault();
+      handleResumeDownload();
+    }
+  }, [handleResumeDownload]);
 
   return (
     <div className={`chatbot-container ${isMobile ? 'mobile' : ''}`}>
@@ -270,7 +268,11 @@ const Chatbot = () => {
                 <button className="close-btn" onClick={toggleChat} aria-label="Close chat"><FaTimes /></button>
               </div>
             </div>
-            <div className="chatbot-messages" ref={chatContainerRef}>
+            <div 
+              className="chatbot-messages" 
+              ref={chatContainerRef}
+              onClick={handleMessageClick}
+            >
               {chatHistory.map((msg, index) => (
                 <div key={index} className={`message ${msg.type}`}>
                   <div className="message-content" dangerouslySetInnerHTML={{ __html: msg.text }} />
@@ -287,7 +289,7 @@ const Chatbot = () => {
                 </div>
               )}
             </div>
-            <form ref={formRef} onSubmit={handleSubmit} className="chatbot-form">
+            <form onSubmit={handleSubmit} className="chatbot-form">
               <input
                 ref={inputRef}
                 type="text"

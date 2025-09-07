@@ -465,3 +465,35 @@
 .chatbot-close {
   display: none;
 }
+/* Add this to prevent horizontal scrolling on mobile */
+.chatbot-messages {
+  overflow-x: hidden;
+}
+
+/* Improve touch targets for mobile */
+@media (max-width: 480px) {
+  .message {
+    padding: 12px 16px;
+    max-width: 85%;
+  }
+  
+  .chatbot-send {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+/* Ensure links are properly styled in messages */
+.message-content a {
+  color: var(--accent-color);
+  text-decoration: underline;
+  cursor: pointer;
+  word-break: break-all;
+}
+
+/* Prevent zoom on iOS input focus */
+@media (max-width: 480px) {
+  .chatbot-input {
+    font-size: 16px !important;
+  }
+}
