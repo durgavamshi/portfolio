@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./../styles/hero.css";
-import javascriptLogo from "../assets/images/javascript.png";
+import javascriptLogo from "../assets/images/javaScript.png";
 import git from "../assets/images/git.jpg";
 import mango from "../assets/images/MongoDB.png";
 import python from "../assets/images/python.png";
