@@ -40,7 +40,8 @@
   box-shadow: 0 0 15px var(--glow-color);
 }
 
-.chatbot-toggle span, .chatbot-toggle svg {
+.chatbot-toggle span,
+.chatbot-toggle svg {
   font-size: 24px;
   color: var(--primary-bg);
 }
@@ -85,13 +86,13 @@
     border-radius: 0;
     z-index: 10002;
   }
-  
+
   /* Adjust when keyboard is open */
   .chatbot-box.keyboard-open {
     height: 100vh;
     max-height: 100vh; /* Ensure it doesn't exceed viewport */
   }
-  
+
   .chatbot-box.keyboard-open .chatbot-messages {
     padding-bottom: 80px; /* Reduced padding for better space usage */
   }
@@ -283,6 +284,12 @@
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   flex-shrink: 0;
+  z-index: 10004; /* Higher z-index to ensure clickability */
+  touch-action: manipulation; /* Prevent default touch behaviors */
+}
+
+.chatbot-box.keyboard-open .chatbot-send {
+  z-index: 10005; /* Even higher when keyboard is open */
 }
 
 .chatbot-send:hover:not(:disabled) {
@@ -355,23 +362,46 @@
   animation: pulse 1.2s infinite;
 }
 
-.typing-dot:nth-child(2) { animation-delay: 0.2s; }
-.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+.typing-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.typing-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
 
 @keyframes pulse {
-  0%, 100% { transform: scale(0.8); opacity: 0.5; }
-  50% { transform: scale(1.2); opacity: 1; }
+  0%,
+  100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
 }
 
 /* Animations */
 @keyframes slideIn {
-  from { transform: translateY(100%); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Mobile-specific adjustments */
@@ -382,33 +412,33 @@
     position: relative;
     z-index: 10003;
   }
-  
+
   .chatbot-header {
     height: 50px;
     padding: 8px 12px; /* Slightly reduced padding */
   }
-  
+
   .chatbot-header h3 {
     font-size: 14px;
   }
-  
+
   .chatbot-messages {
     padding: 10px;
     padding-bottom: 60px; /* Ensure space for form */
   }
-  
+
   .message {
     font-size: 13px;
     padding: 8px 12px;
     max-width: 90%;
   }
-  
+
   .chatbot-input {
     font-size: 13px;
     padding: 8px 10px;
     min-height: 36px; /* Slightly larger for better touch target */
   }
-  
+
   .chatbot-send {
     width: 36px;
     height: 36px;

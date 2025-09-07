@@ -290,7 +290,16 @@ const Chatbot = () => {
                 </div>
               )}
             </div>
-            <form onSubmit={handleSubmit} className="chatbot-form">
+            <form
+              onSubmit={handleSubmit}
+              className="chatbot-form"
+              onTouchStart={(e) => {
+                // Ensure touch events on form don't interfere with submission
+                if (e.target.type === "submit" && !isTyping && message.trim()) {
+                  handleSubmit(e);
+                }
+              }}
+            >
               <input
                 ref={inputRef}
                 type="text"
@@ -306,7 +315,19 @@ const Chatbot = () => {
                   }
                 }}
               />
-              <button type="submit" className="chatbot-send" disabled={isTyping || !message.trim()} aria-label="Send message">
+              <button
+                type="submit"
+                className="chatbot-send"
+                disabled={isTyping || !message.trim()}
+                aria-label="Send message"
+                onTouchStart={(e) => {
+                  // Handle touch event for mobile submission
+                  if (!isTyping && message.trim()) {
+                    e.preventDefault();
+                    handleSubmit(e);
+                  }
+                }}
+              >
                 <FaPaperPlane />
               </button>
             </form>
