@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import "./../styles/projects.css";
-import ecommerce from "../assets/images/ecom1.jpg";
-import pdf from "../assets/images/ecom.jpg";
-import job from "../assets/images/job.jpg";
+import ecommerce from "../assets/images/facemask.png";
+import pdf from "../assets/images/pdf.png";
+import job from "../assets/images/wea.png";
 
 const Projects = () => {
   const projectsRef = useRef(null);
@@ -10,16 +10,16 @@ const Projects = () => {
 
   const projectsData = [
     {
-      title: "Ecommerce Website",
+      title: "Face Mask Detection System",
       image: ecommerce,
       description: [
-        "Developed a fully responsive eCommerce platform.",
-        "Integrated secure payment gateways like Razorpay.",
-        "Built with React.js, Node.js, and MongoDB.",
+        "Hybrid deep learning model for automated face mask detection.",
+        "Uses ResNet50 for feature extraction and SVM/Decision Trees for classification.",
+        "Achieved over 99.6% accuracy on multiple datasets."
       ],
-      technologies: ["React.js", "Node.js", "MongoDB"],
-      year: "2024",
-      link: "https://github.com",
+      technologies: ["Python", "TensorFlow", "ResNet50", "SVM", "OpenCV"],
+      year: "2025",
+      link: "https://github.com/durgavamshi/Facemask-Detection.git",
     },
     {
       title: "PDF to Audio Converter",
@@ -31,19 +31,19 @@ const Projects = () => {
       ],
       technologies: ["Python", "Flask", "PyPDF2"],
       year: "2023",
-      link: "https://github.com",
+      link: "https://github.com/durgavamshi/pdf-audio-converter.git",
     },
     {
-      title: "Job Board Platform",
+      title: "Weather Now",
       image: job,
       description: [
-        "Built a job listing site with search functionality.",
-        "Implemented user authentication and profiles.",
-        "Used React.js and Firebase for real-time updates.",
+        "Developed a responsive weather application with real-time data.",
+        "Integrated geolocation for local weather and search for global cities.",
+        "Displayed forecasts, humidity, wind speed, and interactive maps."
       ],
-      technologies: ["React.js", "Firebase", "CSS"],
-      year: "2024",
-      link: "https://github.com",
+      technologies: ["React.js", "Open-meto API", "CSS", "Geolocation API"],
+      year: "2025",
+      link: "https://weather-now-5sfd.vercel.app/",
     },
   ];
 
@@ -87,17 +87,21 @@ const Projects = () => {
               <img src={project.image} alt={project.title} />
             </div>
             <div className="project-content">
-              <span className="project-tech">{project.technologies.join(", ")}</span>
-              <span className="project-year">{project.year}</span>
+              <div className="project-meta">
+                <span className="project-tech">{project.technologies.join(", ")}</span>
+                <span className="project-year">{project.year}</span>
+              </div>
               <h3>{project.title}</h3>
               <ul>
                 {project.description.map((item, idx) => (
                   <li key={idx}>{item}</li>
                 ))}
               </ul>
-              <a href={project.link} target="_blank" rel="noopener noreferrer" className="view-project-btn">
-                View Project
-              </a>
+              <div className="project-button-container">
+                <a href={project.link} target="_blank" rel="noopener noreferrer" className="view-project-btn">
+                  View Project
+                </a>
+              </div>
             </div>
           </div>
         ))}

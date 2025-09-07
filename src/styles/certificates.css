@@ -1,0 +1,310 @@
+/* Dark theme background */
+.dark-theme {
+  padding: 100px 30px;
+  background: linear-gradient(135deg, var(--primary-bg), var(--secondary-bg));
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  color: var(--text-color);
+}
+
+body.light-mode .dark-theme {
+  background: linear-gradient(135deg, var(--primary-bg), var(--secondary-bg));
+}
+
+/* Header styling */
+.certificates-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.certificates-subtitle {
+  font-size: 16px;
+  color: var(--accent-color);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-family: "Big Shoulders Stencil Text", sans-serif;
+}
+
+.certificates-title {
+  font-size: 48px;
+  font-family: "Big Shoulders Stencil Text", sans-serif;
+  font-weight: 700;
+  color: var(--accent-color);
+  margin-bottom: 40px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 0 15px var(--glow-color);
+}
+
+/* Carousel container */
+.carousel-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* Container for certificates */
+.certificates-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  overflow: visible;
+  min-height: 60vh;
+  margin-bottom: 40px;
+}
+
+/* Carousel buttons */
+.carousel-button {
+  background: rgba(26, 26, 46, 0.7);
+  border: 2px solid var(--accent-color);
+  color: var(--accent-color);
+  font-size: 28px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 20;
+  margin: 0 20px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.carousel-button:hover {
+  background: var(--accent-color);
+  color: white;
+  transform: scale(1.1);
+  box-shadow: 0 0 20px var(--glow-color);
+}
+
+/* Main Certificate card styling - Simplified */
+.certificate-card {
+  width: 100%;
+  max-width: 800px;
+  text-align: center;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.6s ease, opacity 0.6s ease;
+  z-index: 1;
+}
+
+.certificate-card.active {
+  transform: translateX(0);
+  opacity: 1;
+  z-index: 10;
+}
+
+.certificate-card.exit-left {
+  transform: translateX(-100%);
+  opacity: 0;
+  z-index: 5;
+}
+
+.certificate-card.exit-right {
+  transform: translateX(100%);
+  opacity: 0;
+  z-index: 5;
+}
+
+.certificate-card.hidden {
+  transform: translateX(100%);
+  opacity: 0;
+  z-index: 1;
+}
+
+/* Certificate image container - Focus on full visibility */
+.certificate-image-container {
+  width: 100%;
+  height: 60vh;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.certificate-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.5s ease;
+}
+
+.certificate-image-container:hover .certificate-image {
+  transform: scale(1.02);
+}
+
+/* Dots container */
+.dots-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 30px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  background-color: #B0C4DE;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+body.light-mode .dot {
+  background-color: #A0AEC0;
+}
+
+.dot.active {
+  background-color: var(--accent-color);
+  transform: scale(1.2);
+  box-shadow: 0 0 10px var(--glow-color);
+}
+
+.dot:hover {
+  transform: scale(1.3);
+}
+
+/* Animations for text elements */
+@keyframes animateFromTop {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes animateFromBottom {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes animateFromLeft {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes animateFromRight {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Apply animations to text elements */
+.animate-from-top {
+  animation: animateFromTop 0.8s ease-out forwards;
+}
+
+.animate-from-bottom {
+  animation: animateFromBottom 0.8s ease-out forwards;
+}
+
+.animate-from-left {
+  animation: animateFromLeft 0.8s ease-out forwards;
+}
+
+.animate-from-right {
+  animation: animateFromRight 0.8s ease-out forwards;
+}
+
+/* Initial state for text elements */
+.certificates-subtitle,
+.certificates-title {
+  opacity: 0;
+}
+
+/* Ensure text stays visible after animation */
+.certificates-subtitle.animate-from-top,
+.certificates-title.animate-from-bottom {
+  opacity: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .carousel-button {
+    margin: 0 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .dark-theme {
+    padding: 80px 20px;
+  }
+
+  .certificates-title {
+    font-size: 36px;
+  }
+
+  .certificate-card {
+    max-width: 90%;
+  }
+
+  .certificate-image-container {
+    height: 50vh;
+  }
+  
+  .carousel-button {
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dark-theme {
+    padding: 60px 15px;
+  }
+
+  .certificates-title {
+    font-size: 28px;
+  }
+
+  .certificate-card {
+    max-width: 95%;
+  }
+
+  .certificate-image-container {
+    height: 40vh;
+  }
+  
+  .carousel-button {
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+    margin: 0 5px;
+  }
+}

@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import "../styles/cursor.css";
 
 const Cursor = () => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const cursorRef = useRef(null);
 
   useEffect(() => {
     const updateCursor = (e) => {
       requestAnimationFrame(() => {
-        setPosition({ x: e.clientX, y: e.clientY });
+        if (cursorRef.current) {
+          cursorRef.current.style.left = `${e.clientX}px`;
+          cursorRef.current.style.top = `${e.clientY}px`;
+        }
       });
     };
 
@@ -18,10 +21,7 @@ const Cursor = () => {
   return (
     <div
       className="custom-cursor"
-      style={{
-        left: `${position.x}px`,
-        top: `${position.y}px`,
-      }}
+      ref={cursorRef}
     ></div>
   );
 };

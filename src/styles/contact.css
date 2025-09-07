@@ -59,6 +59,7 @@ body.light-mode .contact-title {
 
 .contact-textarea {
   resize: vertical;
+  min-height: 120px;
 }
 
 .contact-button {
@@ -77,6 +78,21 @@ body.light-mode .contact-title {
 .contact-button:hover {
   transform: translateY(-5px);
   box-shadow: var(--shadow-lg), 0 0 15px var(--glow-color);
+}
+
+.contact-button:active {
+  transform: translateY(0);
+}
+
+/* Success message styling */
+.contact-success {
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(46, 204, 113, 0.2);
+  border: 1px solid #2ecc71;
+  border-radius: 5px;
+  color: #2ecc71;
+  text-align: center;
 }
 
 @media (max-width: 768px) {

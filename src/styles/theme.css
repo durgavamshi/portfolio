@@ -1,75 +1,7 @@
-/* CSS (adjusted for navbar) */
-:root {
-  --primary-bg: #0A192F;
-  --secondary-bg: #112240;
-  --text-color: #E6F1FF;
-  --accent-color: #FFD700;
-  --gradient-btn: linear-gradient(90deg, #FFD700, #DAA520);
-  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.2);
-  --shadow-lg: 0 8px 25px rgba(0, 0, 0, 0.3);
-  --glow-color: rgba(255, 215, 0, 0.5);
-  --transition: all 0.3s ease;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  font-family: "Arial", sans-serif;
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(135deg, var(--primary-bg), var(--secondary-bg));
-  color: var(--text-color);
-  background-attachment: fixed;
-  overflow-x: hidden;
-  min-height: 100vh;
-  will-change: scroll-position;
-  position: relative;
-}
-
-body.light-mode {
-  --primary-bg: #FDF6E3;
-  --secondary-bg: #ECE5CE;
-  --text-color: #2D3748;
-  --accent-color: #10B981;
-  --gradient-btn: linear-gradient(90deg, #10B981, #059669);
-  --glow-color: rgba(16, 185, 129, 0.4);
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 6px 20px rgba(0, 0, 0, 0.12);
-  background: linear-gradient(135deg, var(--primary-bg), var(--secondary-bg));
-}
-
-h1, h2, h3 {
-  text-align: center;
-  color: var(--accent-color);
-  font-family: "Inter", sans-serif;
-  font-weight: 600;
-}
-
-button {
-  cursor: pointer;
-  transition: var(--transition);
-  background: var(--gradient-btn);
-  color: var(--primary-bg);
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-family: "Inter", sans-serif;
-  font-weight: 500;
-  box-shadow: var(--shadow-sm);
-}
-
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px var(--glow-color);
-  opacity: 1;
-}
-
 /* Theme Switcher Styles - Adjusted position */
 .theme-switcher {
   position: fixed;
-  top: 72px; /* Moved down from 20px to 50px to avoid navbar overlap */
+  top: calc(var(--navbar-height) + 20px); /* Position below navbar */
   right: 20px;
   padding: 10px;
   width: 40px;
@@ -77,9 +9,9 @@ button:hover {
   background: var(--gradient-btn);
   border: 1px solid var(--glow-color);
   border-radius: 12px;
-  z-index: 2000; /* Increased z-index to ensure it stays above navbar */
+  z-index: 999; /* Lower than navbar's z-index */
   box-shadow: var(--shadow-sm);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, top 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -95,16 +27,37 @@ button:hover {
   box-shadow: 0 6px 18px var(--glow-color);
 }
 
+/* Adjust for scrolled navbar */
+.navbar.scrolled ~ .theme-switcher {
+  top: calc(4rem + 20px); /* Adjust based on scrolled navbar height */
+}
+
+/* Media queries for responsive adjustments */
+@media (max-width: 1024px) {
+  .theme-switcher {
+    top: calc(var(--navbar-height) + 18px);
+    right: 18px;
+  }
+  
+  .navbar.scrolled ~ .theme-switcher {
+    top: calc(3.5rem + 18px);
+  }
+}
+
 @media (max-width: 768px) {
   button {
     padding: 8px 16px;
   }
   .theme-switcher {
-    top: 45px; /* Adjusted for medium screens */
-    right: 15px;
+    top: calc(var(--navbar-height) + 16px);
+    right: 16px;
     width: 36px;
     height: 36px;
     padding: 8px;
+  }
+  
+  .navbar.scrolled ~ .theme-switcher {
+    top: calc(3.5rem + 16px);
   }
 }
 
@@ -113,10 +66,14 @@ button:hover {
     padding: 6px 12px;
   }
   .theme-switcher {
-    top: 40px; /* Adjusted for small screens */
-    right: 10px;
+    top: calc(var(--navbar-height) + 14px);
+    right: 14px;
     width: 32px;
     height: 32px;
     padding: 6px;
+  }
+  
+  .navbar.scrolled ~ .theme-switcher {
+    top: calc(3.5rem + 14px);
   }
 }

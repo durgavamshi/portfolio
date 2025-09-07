@@ -1,56 +1,65 @@
 import React, { useState, useEffect } from "react";
 import "./../styles/navbar.css";
-import logo from "./../assets/logo.png";
+import logo from "./../assets/image.png";
 import LoadingPage from "./Loading";
 
 const Navbar = () => {
-  const [isActive, setIsActive] = useState(false); // For hamburger menu
-  const [isScrolled, setIsScrolled] = useState(false); // For scroll effect
-  const [isLoading, setIsLoading] = useState(false); // For loading state
-  const [targetPage, setTargetPage] = useState(""); // For target page
+  const [isActive, setIsActive] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [targetPage, setTargetPage] = useState("");
+  const [showEmailOptions, setShowEmailOptions] = useState(false);
 
-  const toggleMenu = () => {
-    setIsActive(!isActive);
-  };
-
-  const closeMenu = () => {
-    setIsActive(false); // Close the menu when a link or button is clicked
-  };
+  const toggleMenu = () => setIsActive(!isActive);
+  const closeMenu = () => setIsActive(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 50);
     };
 
     window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const handleNavigation = (e, target) => {
     e.preventDefault();
     setIsLoading(true);
     setTargetPage(target);
-    closeMenu(); // Close the menu immediately on click
+    closeMenu();
 
     setTimeout(() => {
       setIsLoading(false);
       window.location.href = target;
-    }, 2000); // 2 seconds delay
+    }, 2000);
+  };
+
+  const handleHireMeClick = () => {
+    closeMenu();
+    setShowEmailOptions(true);
+  };
+
+  const handleContactOption = (option) => {
+    if (option === 'gmail') {
+      const email = "durgavamshogokinapelli@gmail.com";
+      const subject = "Job Opportunity";
+      const body = "Hello, I would like to discuss a potential collaboration.";
+      
+      window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_blank');
+    } else if (option === 'whatsapp') {
+      // Replace with your actual phone number (with country code but without + or 0)
+      const phoneNumber = "8341764997";
+      const message = "Hello, I would like to discuss a potential collaboration.";
+      
+      window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
+    }
+    
+    setShowEmailOptions(false);
   };
 
   const wrapLetters = (text) => {
     return text.split("").map((letter, index) => (
-      <span
-        key={index}
-        className="letter"
-        style={{ "--letter-index": index }}
-      >
+      <span key={index} className="letter" style={{ "--letter-index": index }}>
         {letter}
       </span>
     ));
@@ -59,6 +68,20 @@ const Navbar = () => {
   return (
     <>
       {isLoading && <LoadingPage />}
+      {showEmailOptions && (
+        <div className="email-modal-overlay">
+          <div className="email-modal">
+            <h3>Contact Options</h3>
+            <p>How would you like to contact me?</p>
+            <div className="email-options">
+              <button onClick={() => handleContactOption('gmail')}>Open Gmail</button>
+              <button onClick={() => handleContactOption('whatsapp')}>Open WhatsApp</button>
+            </div>
+            <button className="close-modal" onClick={() => setShowEmailOptions(false)}>Cancel</button>
+          </div>
+        </div>
+      )}
+
       <nav className={`navbar ${isScrolled ? "scrolled" : ""}`}>
         <div className="logo">
           <img src={logo} alt="Durga's Portfolio Logo" />
@@ -75,8 +98,8 @@ const Navbar = () => {
             </a>
           </li>
           <li>
-            <a href="#testimonials" onClick={(e) => handleNavigation(e, "#testimonials")} data-text="Testimonials">
-              {wrapLetters("Testimonials")}
+            <a href="#certificates" onClick={(e) => handleNavigation(e, "#certificates")} data-text="Certificates">
+              {wrapLetters("Certificates")}
             </a>
           </li>
           <li>
@@ -85,7 +108,7 @@ const Navbar = () => {
             </a>
           </li>
           <li className="hire-me-item">
-            <button className="hire-me-btn" onClick={closeMenu}>
+            <button className="hire-me-btn" onClick={handleHireMeClick}>
               <span>Hire Me</span>
             </button>
           </li>

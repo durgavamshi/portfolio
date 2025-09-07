@@ -1,15 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./../styles/about.css";
-import me from "../assets/images/me.jpg";
-import me1 from "../assets/images/me1.jpg";
-import me6 from "../assets/images/me6.png";
 import { FaFacebookF, FaTwitter, FaGithub, FaLinkedinIn, FaInstagram, FaJava } from "react-icons/fa";
 import { SiC, SiPython, SiMysql, SiReact, SiJavascript, SiHtml5, SiCss3, SiGit } from "react-icons/si";
 import { VscVscode } from "react-icons/vsc";
 
 const About = () => {
   const aboutRef = useRef(null);
-  const imageSliderRef = useRef(null);
   const contentRef = useRef(null);
   const headingRef = useRef(null);
   const paragraphRef = useRef(null);
@@ -20,7 +16,6 @@ const About = () => {
   const educationRef = useRef(null);
   const skillsRef = useRef(null);
 
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [skillWidths, setSkillWidths] = useState({
     c: 0,
     python: 0,
@@ -31,37 +26,8 @@ const About = () => {
     html: 0,
     css: 0,
     vscode: 0,
-    git: 0
+    git: 0,
   });
-  const images = [me, me6];
-
-  useEffect(() => {
-    let interval;
-
-    const startSlider = () => {
-      interval = setInterval(() => {
-        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-      }, 5000);
-    };
-
-    const stopSlider = () => clearInterval(interval);
-
-    startSlider();
-
-    const slider = imageSliderRef.current;
-    if (slider) {
-      slider.addEventListener("mouseenter", stopSlider);
-      slider.addEventListener("mouseleave", startSlider);
-    }
-
-    return () => {
-      stopSlider();
-      if (slider) {
-        slider.removeEventListener("mouseenter", stopSlider);
-        slider.removeEventListener("mouseleave", startSlider);
-      }
-    };
-  }, [images.length]);
 
   useEffect(() => {
     const observerOptions = { threshold: [0.1, 0.3] };
@@ -80,7 +46,7 @@ const About = () => {
               html: 90,
               css: 85,
               vscode: 80,
-              git: 75
+              git: 75,
             });
           }
         } else {
@@ -96,7 +62,7 @@ const About = () => {
               html: 0,
               css: 0,
               vscode: 0,
-              git: 0
+              git: 0,
             });
           }
         }
@@ -105,7 +71,6 @@ const About = () => {
 
     const elements = [
       aboutRef,
-      imageSliderRef,
       contentRef,
       headingRef,
       paragraphRef,
@@ -132,40 +97,19 @@ const About = () => {
     <>
       <section className="about" id="about" ref={aboutRef}>
         <div className="about-container">
-          <div className="about-image-slider" ref={imageSliderRef}>
-            {images.map((image, index) => (
-              <picture key={index}>
-                <source
-                  srcSet={`${image}?w=300 300w, ${image}?w=600 600w`}
-                  sizes="(max-width: 768px) 300px, 600px"
-                />
-                <img
-                  src={image}
-                  alt={`Profile ${index + 1}`}
-                  className={`slide-image ${index === currentImageIndex ? "active" : ""}`}
-                  loading="lazy"
-                  onError={(e) => {
-                    console.error(`Failed to load image ${index + 1}`);
-                    e.target.src = "/fallback-image.jpg";
-                  }}
-                />
-              </picture>
-            ))}
-          </div>
-
           <div className="about-content" ref={contentRef}>
             <h2 ref={headingRef}>About Me</h2>
             <p ref={paragraphRef}>
-              Web developer skilled in AI-powered apps using React and Node.js for sleek, efficient solutions.
+              👋 Hi, I’m Durga Vamshi Gokinapelli, a passionate Web & Software Developer skilled in Java, Python, JavaScript, React.js, and MySQL. I love building responsive web apps, AI-powered projects, and scalable software solutions while constantly learning new technologies.
             </p>
             <div className="contact-info" ref={contactInfoRef}>
               <div className="contact-item">
                 <span className="contact-icon">📞</span>
-                <span>+91 834176XXXX</span>
+                <span>+91 8341764997</span>
               </div>
               <div className="contact-item">
                 <span className="contact-icon">✉️</span>
-                <span>durgavamshi3@email.com</span>
+                <span>durgavamshogokinapelli@email.com</span>
               </div>
               <div className="contact-item">
                 <span className="contact-icon">🌐</span>
@@ -179,10 +123,10 @@ const About = () => {
               <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="icon twitter">
                 <FaTwitter />
               </a>
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="icon github">
+              <a href="https://github.com/durgavamshi" target="_blank" rel="noopener noreferrer" className="icon github">
                 <FaGithub />
               </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="icon linkedin">
+              <a href="https://www.linkedin.com/in/durga-vamshi/" target="_blank" rel="noopener noreferrer" className="icon linkedin">
                 <FaLinkedinIn />
               </a>
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="icon instagram">
@@ -190,9 +134,9 @@ const About = () => {
               </a>
             </div>
           </div>
-        </div>
-        <div className="vertical-text" ref={verticalTextRef}>
-          DURGA VAMSHI
+          <div className="vertical-text" ref={verticalTextRef}>
+            DURGA VAMSHI
+          </div>
         </div>
       </section>
 
