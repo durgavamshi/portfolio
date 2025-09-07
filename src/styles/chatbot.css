@@ -336,6 +336,13 @@
 .message-content a {
   color: var(--accent-color);
   text-decoration: underline;
+  cursor: pointer;
+}
+
+.resume-download-link {
+  color: var(--accent-color) !important;
+  text-decoration: underline !important;
+  cursor: pointer !important;
 }
 
 .message-timestamp {

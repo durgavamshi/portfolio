@@ -13,6 +13,7 @@ const Chatbot = () => {
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   const chatContainerRef = useRef(null);
   const inputRef = useRef(null);
+  const formRef = useRef(null);
 
   const githubLink = "https://github.com/durgavamshi";
   const linkedinLink = "https://linkedin.com/in/durga-vamshi-gokinapelli";
@@ -135,7 +136,7 @@ const Chatbot = () => {
     - <strong>Diploma in Electrical and Electronics Engineering</strong> (2019-2022) from Anubose Institute of Technology, Palwancha - CGPA: 9.5
     - <strong>SSC</strong> (2018-2019) from ZPSS School, Palwancha - CGPA: 8.5
     Would you like more details about any specific qualification?`,
-    resume: `You can download my resume here: <a href="#" onclick="window.handleResumeDownload()" download="Durga_Vamshi_Resume.pdf">Download Resume</a>. It contains detailed information about my skills, projects, and experience.`,
+    resume: `You can download my resume here: <a href="#" class="resume-download-link">Download Resume</a>. It contains detailed information about my skills, projects, and experience.`,
     experience: "I have hands-on experience through projects in software development, particularly in web applications and AI/ML implementations. My projects demonstrate practical application of technologies like Python, React, and various frameworks. Would you like to know about specific projects or technologies?",
     certifications: `I've earned several certifications:
     - Python for Data Science - NPTEL
@@ -195,9 +196,8 @@ const Chatbot = () => {
     } else if (lowerMessage.includes("contact") || lowerMessage.includes("email") || lowerMessage.includes("phone") || lowerMessage.includes("linkedin") || lowerMessage.includes("github")) {
       return { text: predefinedResponses.contact, timestamp };
     } else if (lowerMessage.includes("resume") || lowerMessage.includes("cv")) {
-      // Create a custom response for resume with download functionality
       return { 
-        text: `You can download my resume here: <a href="#" onclick="window.handleResumeDownload && window.handleResumeDownload(); return false;" download="Durga_Vamshi_Resume.pdf">Download Resume</a>. It contains detailed information about my skills, projects, and experience.`, 
+        text: `You can download my resume here: <a href="#" class="resume-download-link">Download Resume</a>. It contains detailed information about my skills, projects, and experience.`, 
         timestamp 
       };
     } else if (lowerMessage.includes("education") || lowerMessage.includes("degree") || lowerMessage.includes("college") || lowerMessage.includes("school")) {
@@ -222,28 +222,19 @@ const Chatbot = () => {
     }
   };
 
-  // Quick replies for better UX
-  const quickReplies = [
-    "Skills",
-    "Projects",
-    "Resume",
-    "Contact",
-    "Education",
-    "Certifications"
-  ];
-
-  const handleQuickReply = (reply) => {
-    setMessage(reply);
-    setTimeout(() => {
-      handleSubmit({ preventDefault: () => {} });
-    }, 100);
-  };
-
-  // Make the download function available globally for the HTML link
+  // Add event listeners for resume download links
   useEffect(() => {
-    window.handleResumeDownload = handleResumeDownload;
+    const handleResumeClick = (e) => {
+      if (e.target.classList.contains('resume-download-link')) {
+        e.preventDefault();
+        handleResumeDownload();
+      }
+    };
+
+    document.addEventListener('click', handleResumeClick);
+    
     return () => {
-      delete window.handleResumeDownload;
+      document.removeEventListener('click', handleResumeClick);
     };
   }, []);
 
@@ -291,14 +282,9 @@ const Chatbot = () => {
               )}
             </div>
             <form
+              ref={formRef}
               onSubmit={handleSubmit}
               className="chatbot-form"
-              onTouchStart={(e) => {
-                // Ensure touch events on form don't interfere with submission
-                if (e.target.type === "submit" && !isTyping && message.trim()) {
-                  handleSubmit(e);
-                }
-              }}
             >
               <input
                 ref={inputRef}
@@ -308,25 +294,12 @@ const Chatbot = () => {
                 placeholder="Ask about my skills, projects, or experience..."
                 className="chatbot-input"
                 disabled={isTyping}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    handleSubmit(e);
-                  }
-                }}
               />
               <button
                 type="submit"
                 className="chatbot-send"
                 disabled={isTyping || !message.trim()}
                 aria-label="Send message"
-                onTouchStart={(e) => {
-                  // Handle touch event for mobile submission
-                  if (!isTyping && message.trim()) {
-                    e.preventDefault();
-                    handleSubmit(e);
-                  }
-                }}
               >
                 <FaPaperPlane />
               </button>
