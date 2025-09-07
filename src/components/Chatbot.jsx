@@ -9,7 +9,7 @@ const Chatbot = () => {
   const [message, setMessage] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 480);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const chatContainerRef = useRef(null);
   const inputRef = useRef(null);
   const chatBoxRef = useRef(null);
@@ -29,53 +29,67 @@ const Chatbot = () => {
     document.body.removeChild(link);
   }, []);
 
-  // Check screen size and adjust height on resize (including keyboard)
+  // Check screen size and adjust height on resize
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 480);
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
+      
       if (isOpenRef.current && chatBoxRef.current) {
-        let vh = window.innerHeight;
-        if (window.visualViewport?.height) {
-          vh = window.visualViewport.height;
+        if (mobile) {
+          // For mobile, set height to 100vh and handle keyboard with CSS
+          chatBoxRef.current.style.height = '100vh';
+          chatBoxRef.current.style.top = '0';
+          chatBoxRef.current.style.left = '0';
+          chatBoxRef.current.style.transform = 'none';
+          chatBoxRef.current.style.borderRadius = '0';
+        } else {
+          // For desktop, reset to original styling
+          chatBoxRef.current.style.height = '500px';
+          chatBoxRef.current.style.top = '';
+          chatBoxRef.current.style.left = '';
+          chatBoxRef.current.style.transform = '';
+          chatBoxRef.current.style.borderRadius = '20px';
         }
-        const mobile = window.innerWidth <= 480;
-        chatBoxRef.current.style.height = mobile ? `${vh}px` : '';
       }
     };
 
-    // Initial call
     handleResize();
-
     window.addEventListener('resize', handleResize);
-    window.visualViewport?.addEventListener('resize', handleResize);
 
     return () => {
       window.removeEventListener('resize', handleResize);
-      window.visualViewport?.removeEventListener('resize', handleResize);
     };
   }, []);
 
   // Update isOpen ref and set initial height on open/close
   useEffect(() => {
     isOpenRef.current = isOpen;
-    if (isOpen && chatBoxRef.current) {
-      const mobile = window.innerWidth <= 480;
-      if (mobile) {
-        let vh = window.innerHeight;
-        if (window.visualViewport?.height) {
-          vh = window.visualViewport.height;
-        }
-        chatBoxRef.current.style.height = `${vh}px`;
+    
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      
+      if (isMobile && chatBoxRef.current) {
+        // Set mobile fullscreen styles
+        chatBoxRef.current.style.height = '100vh';
+        chatBoxRef.current.style.top = '0';
+        chatBoxRef.current.style.left = '0';
+        chatBoxRef.current.style.transform = 'none';
+        chatBoxRef.current.style.borderRadius = '0';
       }
       
       // Focus input when chat opens
       setTimeout(() => {
         if (inputRef.current) inputRef.current.focus();
       }, 100);
-    } else if (chatBoxRef.current) {
-      chatBoxRef.current.style.height = '';
+    } else {
+      document.body.style.overflow = '';
     }
-  }, [isOpen]);
+    
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen, isMobile]);
 
   useEffect(() => {
     if (isOpen && chatHistory.length === 0) {
