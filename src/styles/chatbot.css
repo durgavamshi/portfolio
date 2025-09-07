@@ -85,6 +85,15 @@
     border-radius: 0;
     z-index: 10002;
   }
+  
+  /* Adjust when keyboard is open */
+  .chatbot-box.keyboard-open {
+    height: 100vh;
+  }
+  
+  .chatbot-box.keyboard-open .chatbot-messages {
+    padding-bottom: 120px; /* Extra space when keyboard is open */
+  }
 }
 
 /* Welcome Screen */
@@ -203,7 +212,8 @@
 }
 
 .back-btn,
-.clear-btn {
+.clear-btn,
+.close-btn {
   background: none;
   border: none;
   font-size: 16px;
@@ -217,7 +227,8 @@
 }
 
 .back-btn:hover,
-.clear-btn:hover {
+.clear-btn:hover,
+.close-btn:hover {
   color: var(--accent-color);
   transform: scale(1.1);
 }
@@ -343,7 +354,7 @@
   50% { transform: scale(1.2); opacity: 1; }
 }
 
-/* Form and Input - UPDATED FOR CLOSE BUTTON */
+/* Form and Input */
 .chatbot-form {
   padding: 12px 15px;
   background: var(--secondary-bg);
@@ -370,6 +381,21 @@
   overflow-y: auto;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
   line-height: 1.4;
+  /* Remove number input arrows */
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Remove spinner arrows in Webkit browsers */
+.chatbot-input::-webkit-outer-spin-button,
+.chatbot-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* For Firefox */
+.chatbot-input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 .chatbot-input:focus {
@@ -478,7 +504,8 @@
   
   .chatbot-form {
     padding: 10px;
-    padding-right: 100px; /* Increased padding for two buttons */
+    position: sticky;
+    bottom: 0;
   }
   
   .chatbot-input {
@@ -513,76 +540,7 @@
   background: var(--glow-color);
 }
 
-/* Close button for mobile full-screen view - UPDATED SIZE AND POSITION */
+/* Remove the mobile close button from the form */
 .chatbot-close {
   display: none;
-}
-
-@media (max-width: 480px) {
-  .chatbot-close {
-    display: flex;
-    position: absolute;
-    bottom: 12px;
-    right: 60px; /* Positioned next to the send button */
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid var(--glow-color);
-    color: var(--text-color);
-    font-size: 16px;
-    z-index: 3;
-    padding: 0;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-  }
-  
-  .chatbot-close:hover {
-    background: var(--accent-color);
-    color: var(--primary-bg);
-  }
-  
-  /* Adjust message area to account for close button */
-  .chatbot-messages {
-    padding-top: 50px;
-  }
-}
-
-/* Fix for the input field to remove arrows */
-.chatbot-input {
-  flex: 1;
-  padding: 10px 12px;
-  font-size: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--text-color);
-  resize: none;
-  min-height: 20px;
-  max-height: 100px;
-  overflow-y: auto;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  line-height: 1.4;
-  /* Remove number input arrows */
-  -moz-appearance: textfield;
-  appearance: textfield;
-}
-
-/* Remove spinner arrows in Webkit browsers */
-.chatbot-input::-webkit-outer-spin-button,
-.chatbot-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* For Firefox */
-.chatbot-input[type="number"] {
-  -moz-appearance: textfield;
-}
-
-.chatbot-input:focus {
-  outline: none;
-  border-color: var(--accent-color);
-  box-shadow: 0 0 8px var(--glow-color);
 }

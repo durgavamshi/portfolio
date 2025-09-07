@@ -10,7 +10,9 @@ const Chatbot = () => {
   const [chatHistory, setChatHistory] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 480);
+  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   const chatContainerRef = useRef(null);
+  const inputRef = useRef(null);
 
   const githubLink = "https://github.com/durgavamshi";
   const linkedinLink = "https://linkedin.com/in/durga-vamshi-gokinapelli";
@@ -35,6 +37,34 @@ const Chatbot = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Detect keyboard open/close on mobile
+  useEffect(() => {
+    const handleFocus = () => {
+      if (isMobile) {
+        setIsKeyboardOpen(true);
+      }
+    };
+
+    const handleBlur = () => {
+      if (isMobile) {
+        setIsKeyboardOpen(false);
+      }
+    };
+
+    const inputElement = inputRef.current;
+    if (inputElement) {
+      inputElement.addEventListener('focus', handleFocus);
+      inputElement.addEventListener('blur', handleBlur);
+    }
+
+    return () => {
+      if (inputElement) {
+        inputElement.removeEventListener('focus', handleFocus);
+        inputElement.removeEventListener('blur', handleBlur);
+      }
+    };
+  }, [isMobile, isOpen]);
+
   useEffect(() => {
     if (isOpen && chatHistory.length === 0) {
       const welcomeMessage = {
@@ -54,6 +84,7 @@ const Chatbot = () => {
 
   const toggleChat = () => {
     setIsOpen(!isOpen);
+    setIsKeyboardOpen(false);
   };
   
   const clearChat = () => {
@@ -219,16 +250,14 @@ const Chatbot = () => {
   return (
     <div className={`chatbot-container ${isMobile ? 'mobile' : ''}`}>
       {/* Chat Icon */}
-      <button className="chatbot-toggle" onClick={toggleChat} aria-label="Open chat">
-        {!isOpen ? (
+      {!isOpen && (
+        <button className="chatbot-toggle" onClick={toggleChat} aria-label="Open chat">
           <img src={chatbotGif} alt="Chat Icon" className="chatbot-icon" />
-        ) : (
-          <FaTimes />
-        )}
-      </button>
+        </button>
+      )}
 
       {isOpen && (
-        <div className="chatbot-box">
+        <div className={`chatbot-box ${isKeyboardOpen ? 'keyboard-open' : ''}`}>
           {/* Active Chat Window - Always shown when open */}
           <div className="chatbot-active">
             <div className="chatbot-header">
@@ -241,6 +270,7 @@ const Chatbot = () => {
               </div>
               <div className="header-actions">
                 <button className="clear-btn" onClick={clearChat} aria-label="Clear chat"><FaTrash /></button>
+                <button className="close-btn" onClick={toggleChat} aria-label="Close chat"><FaTimes /></button>
               </div>
             </div>
             <div className="chatbot-messages" ref={chatContainerRef}>
@@ -262,6 +292,7 @@ const Chatbot = () => {
             </div>
             <form onSubmit={handleSubmit} className="chatbot-form">
               <input
+                ref={inputRef}
                 type="text"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}

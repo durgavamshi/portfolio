@@ -47,8 +47,8 @@ const Navbar = () => {
       
       window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`, '_blank');
     } else if (option === 'whatsapp') {
-      // Replace with your actual phone number (with country code but without + or 0)
-      const phoneNumber = "8341764997";
+      // Updated phone number with country code (India: 91)
+      const phoneNumber = "918341764997"; // Added 91 country code
       const message = "Hello, I would like to discuss a potential collaboration.";
       
       window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
